@@ -14,10 +14,6 @@ export abstract class AbstractName implements Name {
         this.checkInvariant();
     }
 
-    protected checkInvariant(): void {
-        InvalidStateException.assert(this.delimiter.length === 1, "delimiter must be a single character");
-    }
-
     protected isProperlyMasked(s: string): boolean {
         for (let i = 0; i < s.length; i++) {
             if (s[i] === ESCAPE_CHARACTER) {
@@ -110,11 +106,24 @@ export abstract class AbstractName implements Name {
 
     public concat(other: Name): void {
         this.checkInvariant();
-        IllegalArgumentException.assert(other != null, "other cannot be null");
+        
+        if (other == null) {
+            throw new IllegalArgumentException("other cannot be null");
+        }
+
         for (let i = 0; i < other.getNoComponents(); i++) {
             this.append(other.getComponent(i));
         }
         this.checkInvariant();
     }
 
+    protected checkInvariant(): void {
+        if (this.delimiter.length !== 1) {
+            throw new InvalidStateException("delimiter must be a single character");
+        }
+
+        if (typeof this.delimiter !== "string") {
+            throw new InvalidStateException("delimiter must be a string");
+        }
+    }
 }

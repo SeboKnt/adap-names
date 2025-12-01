@@ -11,10 +11,6 @@ export class StringName extends AbstractName {
     protected noComponents: number = 0;
 
     constructor(source: string, delimiter?: string) {
-
-        if (source === "") {
-            throw new IllegalArgumentException("Component cannot be empty");
-        }
         if (source === null) {
             throw new IllegalArgumentException("Component cannot be null");
         }
@@ -103,9 +99,6 @@ export class StringName extends AbstractName {
         if (i < 0 || i > this.noComponents) {
             throw new IllegalArgumentException("index out of bounds");
         }
-        if (c === "") {
-            throw new IllegalArgumentException("Component cannot be empty");
-        }
         if (c === null) {
             throw new IllegalArgumentException("Component cannot be null");
         }
@@ -126,9 +119,6 @@ export class StringName extends AbstractName {
         if (i < 0 || i > this.noComponents) {
             throw new IllegalArgumentException("index out of bounds");
         }
-        if (c === "") {
-            throw new IllegalArgumentException("Component cannot be empty");
-        }
         if (c === null) {
             throw new IllegalArgumentException("Component cannot be null");
         }
@@ -148,9 +138,6 @@ export class StringName extends AbstractName {
     public append(c: string) {
 
         this.checkInvariant();
-        if (c === "") {
-            throw new IllegalArgumentException("Component cannot be empty");
-        }
         if (c === null) {
             throw new IllegalArgumentException("Component cannot be null");
         }
