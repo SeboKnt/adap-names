@@ -52,12 +52,10 @@ export class StringArrayName extends AbstractName {
         return this.components[i];
     }
 
-    //  TODO
     public setComponent(i: number, c: string) {
         this.components[i] = c;
     }
 
-    //  TODO
     public insert(i: number, c: string) {
         this.components.splice(i, 0, c);
     }

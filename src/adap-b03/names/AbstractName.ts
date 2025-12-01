@@ -15,9 +15,7 @@ export abstract class AbstractName implements Name {
 
     abstract clone(): Name;
 
-    public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
-    }
+    abstract asString(): string;
 
     public toString(): string {
         return this.asDataString();
