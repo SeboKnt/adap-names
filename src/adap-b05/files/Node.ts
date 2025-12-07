@@ -1,5 +1,8 @@
+import { M } from "vitest/dist/chunks/reporters.d.BFLkQcL6";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
+import { MethodFailedException }  from "../common/MethodFailedException";
+import { ServiceFailureException } from "../common/ServiceFailureException";
 
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
@@ -33,7 +36,18 @@ export class Node {
     }
 
     public getBaseName(): string {
-        return this.doGetBaseName();
+        const originalBaseName = this.baseName;
+        const bn = this.doGetBaseName();
+        
+        if(bn !== originalBaseName){
+            throw new MethodFailedException("BaseNames are not the same", new InvalidStateException("BaseNames are not the same"));
+        }
+
+        if (!(this.parentNode === this)) {
+            InvalidStateException.assert(bn.length > 0, "basename cannot be empty");
+        }
+
+        return bn;
     }
 
     protected doGetBaseName(): string {
@@ -57,7 +71,28 @@ export class Node {
      * @param bn basename of node being searched for
      */
     public findNodes(bn: string): Set<Node> {
-        throw new Error("needs implementation or deletion");
+        
+        if(bn == null){
+            throw new MethodFailedException("Base cannot be null", new IllegalArgumentException("Base cannot be null"));
+        }
+
+        try {
+            let result = new Set<Node>();
+            if (this.getBaseName() === bn) {
+                result.add(this);
+            }
+            return result;
+        } catch (e) {
+            if (e instanceof MethodFailedException) {
+                throw new ServiceFailureException("findNodes failed", e.getTrigger());
+            } else if (e instanceof InvalidStateException) {
+                throw new ServiceFailureException("findNodes failed", e);
+            } else {
+                throw e;
+            }
+        }
+
+        return new Set<Node>();
     }
 
 }
