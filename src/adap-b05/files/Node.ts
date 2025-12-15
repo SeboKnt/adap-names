@@ -43,7 +43,7 @@ export class Node {
             throw new MethodFailedException("BaseNames are not the same", new InvalidStateException("BaseNames are not the same"));
         }
 
-        if (!(this.parentNode === this)) {
+        if (!((this.parentNode as any) === this)) {
             InvalidStateException.assert(bn.length > 0, "basename cannot be empty");
         }
 
